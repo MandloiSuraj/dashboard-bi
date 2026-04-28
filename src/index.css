@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===========================================================
+   Theme tokens — semantic HSL channels (no #/hsl() prefix so
+   `hsl(var(--name) / <opacity>)` keeps working in Tailwind).
+   =========================================================== */
+@layer base {
+  :root {
+    --background: 220 30% 98%;
+    --foreground: 224 24% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 224 24% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 24% 12%;
+
+    --primary: 258 90% 66%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 220 15% 94%;
+    --secondary-foreground: 224 24% 12%;
+
+    --muted: 220 15% 94%;
+    --muted-foreground: 220 8% 46%;
+
+    --accent: 258 95% 95%;
+    --accent-foreground: 258 70% 30%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 13% 89%;
+    --input: 220 13% 89%;
+    --ring: 258 90% 66%;
+
+    --sidebar: 220 25% 99%;
+    --sidebar-foreground: 224 24% 12%;
+    --sidebar-accent: 220 18% 95%;
+
+    --radius: 0.625rem;
+  }
+
+  .dark {
+    --background: 230 25% 6%;
+    --foreground: 220 25% 96%;
+
+    --card: 230 22% 9%;
+    --card-foreground: 220 25% 96%;
+
+    --popover: 230 22% 9%;
+    --popover-foreground: 220 25% 96%;
+
+    --primary: 258 92% 70%;
+    --primary-foreground: 230 25% 6%;
+
+    --secondary: 230 18% 15%;
+    --secondary-foreground: 220 25% 96%;
+
+    --muted: 230 18% 14%;
+    --muted-foreground: 220 12% 62%;
+
+    --accent: 258 60% 22%;
+    --accent-foreground: 258 90% 88%;
+
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 220 25% 96%;
+
+    --border: 230 18% 18%;
+    --input: 230 18% 18%;
+    --ring: 258 92% 70%;
+
+    --sidebar: 230 28% 7%;
+    --sidebar-foreground: 220 25% 96%;
+    --sidebar-accent: 230 22% 12%;
+  }
+
+  * {
+    @apply border-border;
+  }
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "cv11", "ss01";
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  }
+}
+
+/* ===========================================================
+   App shell: ambient gradient background for the dashboard area
+   so it doesn't read like a flat page.
+   =========================================================== */
+.app-bg {
+  background:
+    radial-gradient(1200px 600px at 80% -10%, hsl(258 90% 66% / 0.08), transparent 60%),
+    radial-gradient(1000px 500px at 0% 110%, hsl(199 89% 48% / 0.07), transparent 60%),
+    hsl(var(--background));
+}
+
+.dark .app-bg {
+  background:
+    radial-gradient(1200px 600px at 80% -10%, hsl(258 92% 70% / 0.12), transparent 60%),
+    radial-gradient(1000px 500px at 0% 110%, hsl(199 89% 60% / 0.10), transparent 60%),
+    hsl(var(--background));
+}
+
+/* ===========================================================
+   react-grid-layout overrides so dragging/resizing matches the
+   premium look and uses theme-aware colors.
+   =========================================================== */
+.react-grid-item.react-grid-placeholder {
+  background: hsl(var(--primary) / 0.18) !important;
+  border: 1.5px dashed hsl(var(--primary) / 0.65) !important;
+  border-radius: 0.75rem !important;
+  opacity: 1 !important;
+  transition-duration: 80ms;
+}
+
+.react-grid-item.resizing,
+.react-grid-item.react-draggable-dragging {
+  z-index: 30;
+}
+
+.react-grid-item .react-resizable-handle {
+  background-image: none !important;
+  width: 14px;
+  height: 14px;
+  bottom: 2px;
+  right: 2px;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.react-grid-item:hover .react-resizable-handle,
+.react-grid-item.resizing .react-resizable-handle {
+  opacity: 1;
+}
+
+.react-grid-item .react-resizable-handle::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border-right: 2px solid hsl(var(--muted-foreground) / 0.5);
+  border-bottom: 2px solid hsl(var(--muted-foreground) / 0.5);
+  border-bottom-right-radius: 4px;
+}
+
+/* Light scrollbars */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.4);
+}
+
+/* Recharts overrides for dark mode legibility */
+.recharts-cartesian-axis-tick text {
+  fill: hsl(var(--muted-foreground)) !important;
+}
+.recharts-default-tooltip {
+  border: none !important;
+  background: transparent !important;
+}
