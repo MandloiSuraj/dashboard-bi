@@ -1,0 +1,27 @@
+# Netlify build configuration for Lumina BI.
+# Netlify auto-detects Vite, but pinning these makes builds deterministic.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# SPA fallback — every unknown path serves index.html so client-side routing
+# (and hard-reloads on a deep link) work correctly.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Long cache for hashed assets, no cache for the HTML shell.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
